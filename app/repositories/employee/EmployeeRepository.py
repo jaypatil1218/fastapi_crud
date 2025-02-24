@@ -9,10 +9,18 @@ from app.repositories.BaseRepository import (
 )
 
 
-class EmployeeRepository(BaseRepository[Employee, uuid.UUID]):  # ✅ Now it should work
+class EmployeeRepository(BaseRepository[Employee, uuid.UUID]):  
     def __init__(self, db: Session = Depends(get_db_connection)):
-        super().__init__(db, Employee)  # ✅ Pass the model class
+        super().__init__(db, Employee)  
 
+
+    def authenticate_user(self, username: str, password: str):
+        employee = self.db.query(Employee).filter(Employee.username == username, Employee.password == password).first()
+    
+        #if employee and utils.verify_password(password, user.hashed_password):
+        return employee  
+ 
+        
     # def list(
     #     self, name: Optional[str] = None, limit: int = 100, start: int = 0
     # ) -> List[Employee]:

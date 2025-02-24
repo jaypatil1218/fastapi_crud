@@ -2,8 +2,9 @@ from typing import List, Optional
 from fastapi import Depends
 from app.models.employee.EmployeeModel import Employee
 from app.repositories.employee.EmployeeRepository import EmployeeRepository
-from app.schemas.employee.EmployeeSchema import EmployeeRequestSchema
+from app.schemas.employee.EmployeeSchema import EmployeeRequestSchema, EmployeeSchema
 import uuid
+
 from passlib.context import CryptContext
 
 
@@ -45,6 +46,14 @@ class EmployeeService:
     def verify_password(self, password: str) -> bool:
         """Verifies a plain password against the hashed password."""
         return pwd_context.verify(password, self.password_hash)
+
+    def getbyUsenameAndPassword(self,username,password):
+        employee=self.employeeRepository.authenticate_user(username=username,password=password)
+        if employee is None:
+            return None  # Or raise an exception if you want
+
+        return EmployeeSchema(**employee.__dict__)  # Convert SQLAlchemy object to Pydantic model
+
 
 
  
