@@ -9,7 +9,7 @@ from app.repositories.BaseRepository import (
 )
 
 
-class EmployeeRpository(BaseRepository[Employee, uuid.UUID]):  # ✅ Now it should work
+class EmployeeRepository(BaseRepository[Employee, uuid.UUID]):  # ✅ Now it should work
     def __init__(self, db: Session = Depends(get_db_connection)):
         super().__init__(db, Employee)  # ✅ Pass the model class
 

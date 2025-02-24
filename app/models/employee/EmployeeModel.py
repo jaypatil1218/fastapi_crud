@@ -5,11 +5,11 @@ from sqlalchemy import (
 
 from app.models.BaseModel import BaseModel
 
-
 class Employee(BaseModel):
     __tablename__ = "employees"
 
     username = Column(String, nullable=False)
+    password = Column(String,nullable=False)
     firstname = Column(String, nullable=False)
     lastname = Column(String, nullable=False) 
     company_name = Column(String, nullable=False)

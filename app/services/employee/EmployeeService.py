@@ -1,22 +1,24 @@
 from typing import List, Optional
 from fastapi import Depends
 from app.models.employee.EmployeeModel import Employee
-from app.repositories.employee.EmployeeRepository import EmployeeRpository
+from app.repositories.employee.EmployeeRepository import EmployeeRepository
 from app.schemas.employee.EmployeeSchema import EmployeeRequestSchema
 import uuid
+from passlib.context import CryptContext
+
+
 
 class EmployeeService:
-    employeeRepository: EmployeeRpository
+    employeeRepository: EmployeeRepository
 
-    def __init__(self, employeeRepository: EmployeeRpository = Depends()) -> None:
+    def __init__(self, employeeRepository: EmployeeRepository = Depends()) -> None:
         self.employeeRepository = employeeRepository
 
     def create(self, employee_body: EmployeeRequestSchema) -> Employee:
 
         emp_instance=Employee(
             **employee_body.model_dump()
-
-        )   
+        )
         return self.employeeRepository.create(instance=emp_instance)
 
     def delete(self, employee_id: uuid.UUID) -> None:
@@ -35,6 +37,14 @@ class EmployeeService:
 
     def update(self, employee_id: uuid.UUID, emp_body: EmployeeRequestSchema) -> Employee:
         return self.employeeRepository.update(employee_id, emp_body)
+    
+    def set_password(self, password: str):
+        """Hashes the password before saving."""
+        self.password_hash = pwd_context.hash(password)
+
+    def verify_password(self, password: str) -> bool:
+        """Verifies a plain password against the hashed password."""
+        return pwd_context.verify(password, self.password_hash)
 
 
  
