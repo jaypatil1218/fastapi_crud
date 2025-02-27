@@ -1,7 +1,7 @@
 from typing import List, Optional
 from fastapi import APIRouter, Depends, status,HTTPException, Query
 import uuid
-from app.schemas.employee.EmployeeSchema import EmployeeRequestSchema, EmployeeSchema, TokenDecode
+from app.schemas.employee.EmployeeSchema import EmployeeRequestSchema, EmployeeSchema, TokenDecode,TokeEncode
 from app.configs import constants
 from app.security.utils import (create_token,decode_token)
 from app.services.employee.EmployeeService import EmployeeService
@@ -52,8 +52,8 @@ def delete(id: uuid.UUID, employeeService: EmployeeService = Depends()):
 
 
 @EmployeeRouter.post("genarete_token",response_model=dict)
-def getToken(username:str,password:str,employeeService: EmployeeService = Depends()):
-    employeeschema=employeeService.getbyUsenameAndPassword(username,password)
+def getToken(tokenencode:TokeEncode,employeeService: EmployeeService = Depends()):
+    employeeschema=employeeService.getbyUsenameAndPassword(tokenencode.username,tokenencode.password)
     if employeeschema is None:
         raise HTTPException(status_code=401, detail="Invalid username or password")
 

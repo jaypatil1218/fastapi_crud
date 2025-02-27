@@ -9,10 +9,10 @@ class EmployeeRequestSchema(BaseModel):
     lastname: str
     company_name: str
     position: str
-    # @field_validator("password", mode="before")
-    # @classmethod
-    # def hash_password(cls, value: str) -> str:
-    #     return hash_password(value)
+    @field_validator("password", mode="before")
+    @classmethod
+    def hash_password(cls, value: str) -> str:
+        return hash_password(value)
 
 
 class EmployeeSchema(EmployeeRequestSchema):
@@ -20,3 +20,9 @@ class EmployeeSchema(EmployeeRequestSchema):
 
 class TokenDecode(BaseModel):
     token: str
+
+class TokeEncode(BaseModel):
+    username:str
+    password:str
+    
+
