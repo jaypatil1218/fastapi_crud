@@ -13,7 +13,7 @@ class Employee(BaseModel):
     firstname = Column(String, nullable=False)
     lastname = Column(String, nullable=False) 
     company_name = Column(String, nullable=False)
-    position = Column(String, nullable=True)
+    role = Column(String, nullable=True)
 
     def normalize(self):
         return {

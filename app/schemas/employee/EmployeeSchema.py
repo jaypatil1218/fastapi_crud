@@ -8,7 +8,7 @@ class EmployeeRequestSchema(BaseModel):
     firstname: str
     lastname: str
     company_name: str
-    position: str
+    role: str
     @field_validator("password", mode="before")
     @classmethod
     def hash_password(cls, value: str) -> str:

@@ -51,7 +51,7 @@ def delete(id: uuid.UUID, employeeService: EmployeeService = Depends()):
     return {"message": constants.DATA_DELETED}
 
 
-@EmployeeRouter.post("genarete_token",response_model=dict)
+@EmployeeRouter.post("/genarete_token",response_model=dict)
 def getToken(tokenencode:TokeEncode,employeeService: EmployeeService = Depends()):
     employeeschema=employeeService.getbyUsenameAndPassword(tokenencode.username,tokenencode.password)
     if employeeschema is None:
